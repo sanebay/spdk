@@ -147,6 +147,7 @@ DEPDIRS-bdev_ocf := $(BDEV_DEPS_THREAD)
 DEPDIRS-bdev_passthru := $(BDEV_DEPS_THREAD)
 DEPDIRS-bdev_raid := $(BDEV_DEPS_THREAD)
 DEPDIRS-bdev_rbd := $(BDEV_DEPS_THREAD)
+DEPDIRS-bdev_hs := $(BDEV_DEPS_THREAD)
 DEPDIRS-bdev_uring := $(BDEV_DEPS_THREAD)
 DEPDIRS-bdev_virtio := $(BDEV_DEPS_THREAD) virtio
 DEPDIRS-bdev_zone_block := $(BDEV_DEPS_THREAD)

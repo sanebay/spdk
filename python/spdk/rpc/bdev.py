@@ -1142,6 +1142,53 @@ def bdev_rbd_delete(client, name):
     return client.call('bdev_rbd_delete', params)
 
 
+def bdev_rbd_create(client, pool_name, rbd_name, block_size, name=None, user=None, config=None, cluster_name=None, uuid=None):
+    """Create a Ceph RBD block device.
+
+    Args:
+        pool_name: Ceph RBD pool name
+        rbd_name: Ceph RBD image name
+        block_size: block size of RBD volume
+        name: name of block device (optional)
+        user: Ceph user name (optional)
+        config: map of config keys to values (optional)
+        cluster_name: Name to identify Rados cluster (optional)
+        uuid: UUID of block device (optional)
+
+    Returns:
+        Name of created block device.
+    """
+    params = {
+        'pool_name': pool_name,
+        'rbd_name': rbd_name,
+        'block_size': block_size,
+    }
+
+    if name:
+        params['name'] = name
+    if user is not None:
+        params['user_id'] = user
+    if config is not None:
+        params['config'] = config
+    if cluster_name is not None:
+        params['cluster_name'] = cluster_name
+    else:
+        print("WARNING:bdev_rbd_create should be used with specifying -c to have a cluster name after bdev_rbd_register_cluster.")
+    if uuid is not None:
+        params['uuid'] = uuid
+
+    return client.call('bdev_rbd_create', params)
+
+
+def bdev_rbd_delete(client, name):
+    """Remove rbd bdev from the system.
+
+    Args:
+        name: name of rbd bdev to delete
+    """
+    params = {'name': name}
+    return client.call('bdev_rbd_delete', params)
+
 def bdev_rbd_resize(client, name, new_size):
     """Resize rbd bdev in the system.
 
@@ -1277,6 +1324,36 @@ def bdev_iscsi_delete(client, name):
     """
     params = {'name': name}
     return client.call('bdev_iscsi_delete', params)
+
+def bdev_hs_create(client, name, host, num_blocks, block_size, mode):
+    """Construct an hs block device.
+
+    Args:
+        name: name of block device
+        server: hs URL
+
+    Returns:
+        Name of created block device.
+    """
+    params = {
+        'name': name,
+        'host': host,
+        'num_blocks' : num_blocks,
+        'block_size' :  block_size,
+        'mode' : mode,
+    }
+
+    return client.call('bdev_hs_create', params)
+
+
+def bdev_hs_delete(client, name):
+    """Remove hs bdev from the system.
+
+    Args:
+        bdev_name: name of hs bdev to delete
+    """
+    params = {'name': name}
+    return client.call('bdev_hs_delete', params)
 
 
 def bdev_passthru_create(client, base_bdev_name, name):

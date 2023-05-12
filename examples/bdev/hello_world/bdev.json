@@ -4,11 +4,13 @@
       "subsystem": "bdev",
       "config": [
         {
-          "method": "bdev_malloc_create",
+          "method": "bdev_hs_create",
           "params": {
-            "name": "Malloc0",
-            "num_blocks": 32768,
-            "block_size": 512
+              "name": "hs0",
+              "host": "127.0.0.1:50051",
+              "num_blocks": 100,
+              "block_size": 512,
+              "mode" : 1
           }
         }
       ]

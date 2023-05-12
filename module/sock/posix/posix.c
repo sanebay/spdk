@@ -541,7 +541,7 @@ posix_sock_tls_psk_server_cb(SSL *ssl,
 	}
 
 	SPDK_DEBUGLOG(sock_posix, "Length of Client's PSK KEY %u\n", max_psk_len);
-	default_psk = OPENSSL_hexstr2buf(impl_opts->psk_key, &key_len);
+	//default_psk = OPENSSL_hexstr2buf(impl_opts->psk_key, &key_len);
 	if (default_psk == NULL) {
 		SPDK_ERRLOG("Could not unhexlify PSK\n");
 		goto err;
@@ -582,7 +582,7 @@ posix_sock_tls_psk_client_cb(SSL *ssl, const char *hint,
 		SPDK_ERRLOG("PSK is not set\n");
 		goto err;
 	}
-	default_psk = OPENSSL_hexstr2buf(impl_opts->psk_key, &key_len);
+	//default_psk = OPENSSL_hexstr2buf(impl_opts->psk_key, &key_len);
 	if (default_psk == NULL) {
 		SPDK_ERRLOG("Could not unhexlify PSK\n");
 		goto err;
@@ -786,9 +786,6 @@ SSL_readv(SSL *ssl, const struct iovec *iov, int iovcnt)
 	case SSL_ERROR_WANT_CONNECT:
 	case SSL_ERROR_WANT_ACCEPT:
 	case SSL_ERROR_WANT_X509_LOOKUP:
-	case SSL_ERROR_WANT_ASYNC:
-	case SSL_ERROR_WANT_ASYNC_JOB:
-	case SSL_ERROR_WANT_CLIENT_HELLO_CB:
 		errno = EAGAIN;
 		return -1;
 	case SSL_ERROR_SYSCALL:
@@ -830,9 +827,6 @@ SSL_writev(SSL *ssl, struct iovec *iov, int iovcnt)
 	case SSL_ERROR_WANT_CONNECT:
 	case SSL_ERROR_WANT_ACCEPT:
 	case SSL_ERROR_WANT_X509_LOOKUP:
-	case SSL_ERROR_WANT_ASYNC:
-	case SSL_ERROR_WANT_ASYNC_JOB:
-	case SSL_ERROR_WANT_CLIENT_HELLO_CB:
 		errno = EAGAIN;
 		return -1;
 	case SSL_ERROR_SYSCALL:

@@ -1114,6 +1114,33 @@ if __name__ == "__main__":
     p.add_argument('name', help='iSCSI bdev name')
     p.set_defaults(func=bdev_iscsi_delete)
 
+    def bdev_hs_create(args):
+        num_blocks = (args.total_size * 1024 * 1024) // args.block_size
+        print_json(rpc.bdev.bdev_hs_create(args.client,
+                                           name=args.name,
+                                           host=args.host,
+                                           num_blocks=int(num_blocks),
+                                           block_size=args.block_size,
+                                           mode=args.mode))
+
+    p = subparsers.add_parser('bdev_hs_create',
+                              help='Add bdev with hs initiator backend')
+    p.add_argument('-b','--name', help="Name of the bdev", required=True)
+    p.add_argument('-s', '--host', help="Server ip", required=True)
+    p.add_argument('-t', '--total_size', help='Size of malloc bdev in MB (float > 0)', type=float)
+    p.add_argument('-B', '--block_size', help='Data block size for this bdev', type=int)
+    p.add_argument('-m', '--mode', help='Mode inmemory/grpc', type=int)
+
+    p.set_defaults(func=bdev_hs_create)
+
+    def bdev_hs_delete(args):
+        rpc.bdev.bdev_hs_delete(args.client,
+                                   name=args.name)
+
+    p = subparsers.add_parser('bdev_hs_delete', help='Delete an hs bdev')
+    p.add_argument('name', help='hs bdev name')
+    p.set_defaults(func=bdev_hs_delete)
+
     def bdev_passthru_create(args):
         print_json(rpc.bdev.bdev_passthru_create(args.client,
                                                  base_bdev_name=args.base_bdev_name,

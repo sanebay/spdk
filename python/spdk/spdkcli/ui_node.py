@@ -76,6 +76,7 @@ class UIBdevs(UINode):
         UIErrorBdev(self)
         UISplitBdev(self)
         UIRbdBdev(self)
+        UIHsBdev(self)
         UIiSCSIBdev(self)
         UIVirtioBlkBdev(self)
         UIVirtioScsiBdev(self)
@@ -436,6 +437,27 @@ class UIRbdBdev(UIBdev):
                                                    rbd_name=rbd_name,
                                                    block_size=block_size,
                                                    name=name)
+        self.shell.log.info(ret_name)
+
+    def ui_command_delete(self, name):
+        """
+        Deletes rbd bdev from configuration.
+
+        Arguments:
+        name - Is a unique identifier of the rbd bdev to be deleted - UUID number or name alias.
+        """
+        self.delete(name)
+
+class UIHsBdev(UIBdev):
+    def __init__(self, parent):
+        UIBdev.__init__(self, "hs", parent)
+
+    def delete(self, name):
+        self.get_root().bdev_hs_delete(name=name)
+
+    def ui_command_create(self, name, server):
+        ret_name = self.get_root().create_hs_bdev(name=name,
+                                                  server=server)
         self.shell.log.info(ret_name)
 
     def ui_command_delete(self, name):

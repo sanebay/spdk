@@ -79,6 +79,8 @@ BLOCKDEV_MODULES_LIST += bdev_rbd
 BLOCKDEV_MODULES_PRIVATE_LIBS += -lrados -lrbd
 endif
 
+BLOCKDEV_MODULES_LIST += bdev_hs
+
 ifeq ($(CONFIG_DAOS),y)
 BLOCKDEV_MODULES_LIST += bdev_daos
 BLOCKDEV_MODULES_PRIVATE_LIBS += -ldaos -ldaos_common -ldfs -lgurt -luuid -ldl

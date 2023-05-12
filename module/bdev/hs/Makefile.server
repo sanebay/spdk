@@ -1,0 +1,15 @@
+CXX = g++
+CPPFLAGS += -g `PKG_CONFIG_PATH=/home/sanpillai/build/lib/pkgconfig/ pkg-config --cflags protobuf grpc openssl`
+CXXFLAGS +=  -I/usr/local/include -O1 -fno-omit-frame-pointer -std=c++14
+LDFLAGS += -g -L/usr/local/lib `PKG_CONFIG_PATH=/home/sanpillai/build/lib/pkgconfig/ pkg-config --libs protobuf grpc++ grpc openssl` -lpthread
+
+all: server
+
+server.o: server.cc common.h
+	 g++ $(CPPFLAGS) -c server.cc
+
+server: server.o
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+clean:
+	rm -f server server.o

@@ -337,9 +337,14 @@ SYS_LIBS += -luuid
 endif
 SYS_LIBS += -lssl
 SYS_LIBS += -lcrypto
+SYS_LIBS += -lstdc++ -lrt
 SYS_LIBS += -lm
 
 PKGCONF ?= pkg-config
+
+SYS_LIBS += $(shell PKG_CONFIG_PATH=/home/sanpillai/build/lib/pkgconfig/ $(PKGCONF) --libs grpc grpc++ protobuf)
+CXXFLAGS += $(shell PKG_CONFIG_PATH=/home/sanpillai/build/lib/pkgconfig/ $(PKGCONF) --cflags grpc grpc++ protobuf)
+
 ifneq ($(strip $(CONFIG_OPENSSL_PATH)),)
 CFLAGS += -I$(CONFIG_OPENSSL_PATH)/include
 LDFLAGS += -L$(CONFIG_OPENSSL_PATH)
